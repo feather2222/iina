@@ -2427,6 +2427,18 @@ class MainWindowController: PlayerWindowController {
     return winFrame
   }
 
+  /// Apply a runtime change to mpv's `geometry` option.
+  ///
+  /// mpv only applies the `geometry` option when a window is created. Since IINA manages the window itself, a runtime
+  /// `set geometry` command has no effect unless IINA applies the new value to the existing window. See issue #5975.
+  func geometryOptionChanged() {
+    guard isWindowLoaded, !fsState.isFullscreen, pipStatus == .notInPIP else { return }
+    cachedGeometry = nil
+    if let wf = windowFrameFromGeometry() {
+      window?.setFrame(wf, display: true, animate: true)
+    }
+  }
+
   /// Determine the screen to use for the window.
   /// - Parameter window: Window to determine the screen for.
   /// - Returns: Screen to use for the given window.

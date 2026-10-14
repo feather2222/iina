@@ -152,6 +152,7 @@ class MPVController: NSObject {
     MPVOption.Window.fullscreen: MPV_FORMAT_FLAG,
     MPVOption.Window.ontop: MPV_FORMAT_FLAG,
     MPVOption.Window.windowScale: MPV_FORMAT_DOUBLE,
+    MPVOption.Window.geometry: MPV_FORMAT_STRING,
     MPVProperty.mediaTitle: MPV_FORMAT_STRING,
     MPVProperty.videoParamsRotate: MPV_FORMAT_INT64,
     MPVProperty.videoParamsPrimaries: MPV_FORMAT_STRING,
@@ -1511,6 +1512,9 @@ class MPVController: NSObject {
 
     case MPVOption.Window.windowScale:
       DispatchQueue.main.async { self.player.windowScaleChanged() }
+
+    case MPVOption.Window.geometry:
+      DispatchQueue.main.async { self.player.mainWindow.geometryOptionChanged() }
 
     case MPVProperty.mediaTitle:
       DispatchQueue.main.async { self.player.mediaTitleChanged() }
